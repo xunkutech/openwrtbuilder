@@ -1,12 +1,12 @@
-FROM alpine:latest
+ROM debian:jessie
 MAINTAINER Jason Han <han_min@hotmail.com>
 
-RUN apk update && \
-apk add --no-cache asciidoc bash bc binutils bzip2 cdrkit coreutils diffutils \
-findutils flex g++ gawk gcc gettext git grep intltool libxslt linux-headers \
-make ncurses-dev patch perl python2-dev tar unzip util-linux wget zlib-dev \
-bsd-compat-headers && \
-git clone https://github.com/shadowsocks/luci-app-shadowsocks.git && \
-cd luci-app-shadowsocks/tools/po2lmo && make && make install && \
-cd ../../.. && rm -rf luci-app-shadowsocks && \
-adduser --disabled-password --uid 1000 --gecos "Docker Builder,,," builder
+RUN apt-get update && \
+    apt-get install -y sudo time git-core subversion build-essential g++ bash make libssl-dev patch && \
+    apt-get install -y libncurses5-dev zlib1g-dev gawk flex gettext wget unzip python xz-utils && \
+    apt-get clean && \
+    git clone https://github.com/shadowsocks/luci-app-shadowsocks.git && \
+    cd luci-app-shadowsocks/tools/po2lmo && make && make install && \
+    cd ../../.. && rm -rf luci-app-shadowsocks && \
+    adduser --disabled-password --uid 1000 --gecos "Docker Builder,,," builder && \
+    echo 'builder ALL=NOPASSWD: ALL' > /etc/sudoers.d/builder
