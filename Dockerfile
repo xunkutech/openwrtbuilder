@@ -1,4 +1,4 @@
-ROM debian:jessie
+FROM debian:jessie
 MAINTAINER Jason Han <han_min@hotmail.com>
 
 RUN apt-get update && \
